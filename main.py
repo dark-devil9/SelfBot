@@ -17,7 +17,7 @@ from asyncio import sleep
 
 class SAAD():
   __version__ = 1.5
-  __lines__ = 258
+  __lines__ = 331
        
 with open("config.json","r") as r:
    config = json.load(r)
