@@ -13,11 +13,9 @@ import smtplib
 from discord.ext import commands
 from asyncio import sleep
 
-
-
 class SAAD():
   __version__ = 1.5
-  __lines__ = 331
+  __lines__ = 258
        
 with open("config.json","r") as r:
    config = json.load(r)
@@ -71,10 +69,15 @@ def StartPrinting():
 clear()
 colorama.init()
 intents = discord.Intents.all()
-saad = commands.Bot(command_prefix=command_prefix,self_bot=True,intents=intents)
+saad = commands.Bot(
+command_prefix = command_prefix,
+self_bot = True,
+intents = intents,
+status = discord.Status.idle
+)
 saad.remove_command("help")
 @saad.event
-async def on_command_error(ctx, error):
+async def on_command_error(error):
      error_str = str(error)
      error = getattr(error, 'original', error)
      if isinstance(error, commands.CommandNotFound):
@@ -275,7 +278,7 @@ async def leave(ctx):
 
 @saad.command(aliases=["Guilds","GUILDS"])
 async def guilds(ctx):
-  with open("guilds.txt","w") as g:
+  with open("txt/guilds.txt","w") as g:
     for i in saad.guilds:
       try:
         g.write(f"Guild owner : {i.owner} , Guild membercount : {i.member_count} , Guild id : {i.id}\n")
@@ -286,7 +289,7 @@ async def guilds(ctx):
 
 @saad.command(aliases=["Friends","FRIENDS"])
 async def friends(ctx):
-  with open("friends.txt","w") as f:
+  with open("txt/friends.txt","w") as f:
     for i in saad.user.friends:
       try:
         f.write(f"Name : {i} , id : {i.id}\n")
@@ -309,6 +312,7 @@ async def help(ctx):
    embed.add_field(name="Nuke",value=f"{saad.command_prefix}help nuke")
    embed.add_field(name="Fun",value=f"{saad.command_prefix}help fun")
    await ctx.send(embed=embed)
+ 
 @help.command(aliases=["Nsfw","NSFW"])
 async def nsfw(ctx):
   embed = discord.Embed(color = discord.Color.red())
